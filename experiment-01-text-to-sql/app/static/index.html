@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Database AI Assistant — Text-to-SQL Workflow</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 id="app-title">University Database AI Assistant</h1>
+                    <p class="subtitle">Text-to-SQL Workflow · Applied Agentic AI Lab (MR23-1CS0436)</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge" id="provider-badge">
+                    <i class="fa-solid fa-microchip"></i> Provider: <strong id="provider-name">Loading...</strong>
+                </span>
+                <button class="btn btn-outline" id="clear-chat-btn" title="Clear Conversation">
+                    <i class="fa-solid fa-rotate-left"></i> Clear Chat
+                </button>
+            </div>
+        </header>
+
+        <!-- Live Workflow Pipeline Bar -->
+        <div class="workflow-bar-container">
+            <div class="workflow-bar-title">
+                <i class="fa-solid fa-diagram-project"></i> Agentic Workflow Pipeline State
+            </div>
+            <div class="workflow-steps" id="workflow-steps">
+                <div class="step-chip" id="step-0"><span class="step-num">1</span> Question</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-1"><span class="step-num">2</span> Schema Retrieval</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-2"><span class="step-num">3</span> SQL Generation</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-3"><span class="step-num">4</span> Safety Validation</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-4"><span class="step-num">5</span> DB Execution</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-5"><span class="step-num">6</span> Explanation</div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container" id="chat-container">
+            <!-- Welcome Message Card -->
+            <div class="welcome-card" id="welcome-card">
+                <div class="welcome-icon">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <h2>Welcome to the Text-to-SQL Workflow Assistant</h2>
+                <p>Ask natural-language questions about university departments, students, CGPAs, courses, enrollments, and faculty members.</p>
+                
+                <div class="example-chips-section">
+                    <p class="chips-title"><i class="fa-solid fa-lightbulb"></i> Try a sample question:</p>
+                    <div class="example-chips">
+                        <button class="chip-btn" data-question="Top 5 students by CGPA">
+                            <i class="fa-solid fa-trophy"></i> Top 5 students by CGPA
+                        </button>
+                        <button class="chip-btn" data-question="How many students are in Computer Science?">
+                            <i class="fa-solid fa-users"></i> Student count in CS
+                        </button>
+                        <button class="chip-btn" data-question="What is the average CGPA by department?">
+                            <i class="fa-solid fa-chart-simple"></i> Avg CGPA by Department
+                        </button>
+                        <button class="chip-btn" data-question="Which department has the most students?">
+                            <i class="fa-solid fa-building-columns"></i> Dept with most students
+                        </button>
+                        <button class="chip-btn" data-question="List all courses offered by Cyber Security">
+                            <i class="fa-solid fa-shield-halved"></i> Cyber Security Courses
+                        </button>
+                        <button class="chip-btn" data-question="Show students with CGPA above 8.5">
+                            <i class="fa-solid fa-star"></i> Students CGPA > 8.5
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="messages-list" id="messages-list"></div>
+        </main>
+
+        <!-- Chat Input Footer -->
+        <footer class="chat-input-footer">
+            <form id="chat-form" class="chat-form">
+                <input 
+                    type="text" 
+                    id="user-input" 
+                    class="chat-input" 
+                    placeholder="Ask a question about students, departments, or courses..." 
+                    autocomplete="off" 
+                    required
+                >
+                <button type="submit" id="send-btn" class="btn btn-primary">
+                    <span>Send</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+            <div class="footer-note">
+                <i class="fa-solid fa-shield-check"></i> Server-side read-only SELECT validation active. Destructive queries (INSERT, UPDATE, DELETE, DROP) are automatically blocked.
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
