@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Optimization Experiment — Experiment 11</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div>
+                    <h1>Model Optimization & Compression Studio</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 11 · Quantization (INT8/INT4) & Knowledge Distillation Benchmark</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge"><i class="fa-solid fa-signal"></i> Active (Port 8010)</span>
+                <span class="badge opt-badge"><i class="fa-solid fa-compress"></i> 4 Optimization Levels</span>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left Control Panel -->
+            <aside class="panel control-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-sliders"></i> Target Hardware Setup</h2>
+                </div>
+
+                <form id="opt-form">
+                    <div class="form-group">
+                        <label class="input-label" for="base-model"><i class="fa-solid fa-cube"></i> Base Foundation Model</label>
+                        <select id="base-model" class="control-select">
+                            <option value="Llama-3-8B-Instruct">Llama-3-8B-Instruct (16GB Baseline)</option>
+                            <option value="Llama-3-70B-Instruct">Llama-3-70B-Instruct (140GB Baseline)</option>
+                            <option value="Mistral-7B-v0.2">Mistral-7B-v0.2 (14GB Baseline)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="target-hardware"><i class="fa-solid fa-desktop"></i> Deployment Hardware</label>
+                        <select id="target-hardware" class="control-select">
+                            <option value="NVIDIA RTX 4090 (24GB VRAM)">NVIDIA RTX 4090 (24GB VRAM)</option>
+                            <option value="NVIDIA A100 (80GB VRAM)">NVIDIA A100 (80GB VRAM)</option>
+                            <option value="Apple M3 Max (64GB Unified)">Apple M3 Max (64GB Unified)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="run-opt-btn" class="btn btn-primary btn-block">
+                        <span>Execute Optimization Benchmark</span>
+                        <i class="fa-solid fa-bolt"></i>
+                    </button>
+                </form>
+
+                <!-- Optimization Techniques Summary Card -->
+                <div class="techniques-card">
+                    <h3><i class="fa-solid fa-layer-group"></i> Optimization Techniques</h3>
+                    <ul class="technique-list">
+                        <li><i class="fa-solid fa-database"></i> <strong>FP16 Baseline:</strong> Full Precision</li>
+                        <li><i class="fa-solid fa-weight-scale"></i> <strong>INT8 Quantization:</strong> 50% Memory Reduction</li>
+                        <li><i class="fa-solid fa-cube"></i> <strong>INT4 AWQ/GPTQ:</strong> 75% Memory Reduction</li>
+                        <li><i class="fa-solid fa-graduation-cap"></i> <strong>3B Distillation:</strong> Student Architecture</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Right Workbench / Display Area -->
+            <main class="panel display-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> Efficiency Matrix & Trade-off Profiles</h2>
+                    <span id="opt-duration-badge" class="badge duration-badge" style="display: none;">0ms</span>
+                </div>
+
+                <!-- Welcome Placeholder -->
+                <div id="welcome-card" class="welcome-card">
+                    <div class="welcome-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <h3>Model Optimization & Quantization Workbench</h3>
+                    <p>Click <strong>"Execute Optimization Benchmark"</strong> to evaluate side-by-side performance across FP16, INT8, INT4 AWQ, and Knowledge Distillation optimization levels.</p>
+                </div>
+
+                <!-- Results Area -->
+                <div id="results-area" class="results-area" style="display: none;">
+                    <!-- Metrics Bar -->
+                    <div class="metrics-row">
+                        <div class="metric-card highlight">
+                            <span class="metric-label">VRAM Champion</span>
+                            <span id="vram-champion-val" class="metric-val" style="font-size: 1.1rem;">3B Distillation</span>
+                        </div>
+                        <div class="metric-card success">
+                            <span class="metric-label">Throughput Champion</span>
+                            <span id="throughput-champion-val" class="metric-val" style="font-size: 1.1rem;">3B Distillation</span>
+                        </div>
+                    </div>
+
+                    <!-- Side-by-Side 4 Optimization Profile Cards -->
+                    <div id="profiles-cards-container" class="cards-grid"></div>
+
+                    <!-- Trade-off Synthesis Box -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-scale-balanced"></i> Optimization Trade-off Synthesis Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="synthesis-box" class="synthesis-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

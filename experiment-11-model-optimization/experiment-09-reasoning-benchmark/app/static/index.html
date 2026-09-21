@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompting & Strategy Benchmarking — Experiment 09</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                    <h1>Prompting & Strategy Benchmarking</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 09 · Comparative Observable Strategy & Paradigm Evaluation</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge"><i class="fa-solid fa-signal"></i> Active (Port 8008)</span>
+                <span class="badge paradigms-badge"><i class="fa-solid fa-layer-group"></i> Deterministic Benchmark Mode</span>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left Control Panel -->
+            <aside class="panel control-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-flask"></i> Benchmark Problem Selector</h2>
+                </div>
+
+                <form id="benchmark-form">
+                    <div class="form-group">
+                        <label class="input-label" for="task-select"><i class="fa-solid fa-list-check"></i> Benchmark Task Suite</label>
+                        <select id="task-select" class="control-select"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="custom-problem"><i class="fa-solid fa-pen-to-square"></i> Problem Narrative</label>
+                        <textarea id="custom-problem" class="control-textarea" rows="5"></textarea>
+                    </div>
+
+                    <button type="submit" id="run-benchmark-btn" class="btn btn-primary btn-block">
+                        <span>Execute Strategy Benchmark</span>
+                        <i class="fa-solid fa-gauge-high"></i>
+                    </button>
+                </form>
+
+                <!-- Paradigms Evaluated Overview -->
+                <div class="paradigms-card">
+                    <h3><i class="fa-solid fa-cubes"></i> Benchmark Strategies</h3>
+                    <ul class="paradigm-list">
+                        <li><i class="fa-solid fa-bolt"></i> <strong>Direct Answer:</strong> Single-Pass Output</li>
+                        <li><i class="fa-solid fa-list-ol"></i> <strong>Structured Decomposition:</strong> Concise Rationale</li>
+                        <li><i class="fa-solid fa-wrench"></i> <strong>Tool-Assisted ReAct:</strong> Observable Tool Invocations</li>
+                        <li><i class="fa-solid fa-users-gear"></i> <strong>Multi-Agent:</strong> Role Consensus</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Right Workbench / Display Area -->
+            <main class="panel display-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-column"></i> Benchmark Results & Strategy Comparison</h2>
+                    <span id="benchmark-duration-badge" class="badge duration-badge" style="display: none;">0ms</span>
+                </div>
+
+                <!-- Winners Banner -->
+                <div id="winners-banner" class="winners-grid" style="display: none;">
+                    <div class="winner-card winner-accuracy">
+                        <div class="winner-label"><i class="fa-solid fa-trophy"></i> Highest Correctness Rating</div>
+                        <div id="winner-accuracy-val" class="winner-val">-</div>
+                    </div>
+                    <div class="winner-card winner-efficiency">
+                        <div class="winner-label"><i class="fa-solid fa-stopwatch"></i> Fastest Execution Latency</div>
+                        <div id="winner-efficiency-val" class="winner-val">-</div>
+                    </div>
+                </div>
+
+                <!-- Strategy Cards Grid -->
+                <div id="strategies-container" class="strategies-grid"></div>
+
+                <!-- Trade-off Synthesis Box -->
+                <div id="tradeoff-container" class="result-card" style="display: none;">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-balance-scale"></i> Architectural Trade-off Synthesis</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="tradeoff-text" class="tradeoff-box"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
