@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Knowledge RAG Assistant — Applied Agentic AI Lab</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <div>
+                    <h1 id="app-title">Cybersecurity Knowledge RAG Assistant</h1>
+                    <p class="subtitle">RAG-Based Question Answering · Applied Agentic AI Lab (MR23-1CS0436)</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge" id="provider-badge">
+                    <i class="fa-solid fa-brain"></i> Mode: <strong id="provider-name">Loading...</strong>
+                </span>
+                <button class="btn btn-outline" id="rebuild-index-btn" title="Rebuild Vector Index">
+                    <i class="fa-solid fa-rotate"></i> Rebuild Index
+                </button>
+                <button class="btn btn-outline" id="clear-chat-btn" title="Clear Conversation">
+                    <i class="fa-solid fa-trash-can"></i> Clear Chat
+                </button>
+            </div>
+        </header>
+
+        <!-- Knowledge Base Status Card -->
+        <div class="kb-status-bar" id="kb-status-bar">
+            <div class="kb-status-item">
+                <i class="fa-solid fa-file-lines"></i> Docs: <strong id="kb-docs-count">0</strong>
+            </div>
+            <div class="kb-status-item">
+                <i class="fa-solid fa-cubes"></i> Chunks: <strong id="kb-chunks-count">0</strong>
+            </div>
+            <div class="kb-status-item">
+                <i class="fa-solid fa-vector-square"></i> Model: <strong id="kb-model-name">local-dense-384</strong>
+            </div>
+            <div class="kb-status-item">
+                <i class="fa-solid fa-database"></i> Index: <strong id="kb-index-type">LocalJSONVectorStore</strong>
+            </div>
+            <div class="kb-status-item">
+                <i class="fa-solid fa-clock"></i> Updated: <span id="kb-last-indexed">Checking...</span>
+            </div>
+        </div>
+
+        <!-- Live RAG Pipeline Bar -->
+        <div class="workflow-bar-container">
+            <div class="workflow-bar-title">
+                <i class="fa-solid fa-diagram-project"></i> Visible RAG Pipeline State
+            </div>
+            <div class="workflow-steps" id="workflow-steps">
+                <div class="step-chip" id="step-0"><span class="step-num">1</span> Document Index</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-1"><span class="step-num">2</span> Query Embedding</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-2"><span class="step-num">3</span> Vector Retrieval</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-3"><span class="step-num">4</span> Context Building</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-4"><span class="step-num">5</span> Response Generation</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-5"><span class="step-num">6</span> Grounded Answer</div>
+            </div>
+        </div>
+
+        <!-- Main Chat Container -->
+        <main class="chat-container" id="chat-container">
+            <!-- Welcome Card -->
+            <div class="welcome-card" id="welcome-card">
+                <div class="welcome-icon">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <h2>Cybersecurity RAG Knowledge Base</h2>
+                <p>Ask questions grounded in our local knowledge base covering Network Security, Malware, Phishing, Firewalls, Web App Security, MFA, and Incident Response.</p>
+                
+                <div class="example-chips-section">
+                    <p class="chips-title"><i class="fa-solid fa-lightbulb"></i> Try a sample cybersecurity question:</p>
+                    <div class="example-chips">
+                        <button class="chip-btn" data-question="What is phishing?">
+                            <i class="fa-solid fa-fish"></i> What is phishing?
+                        </button>
+                        <button class="chip-btn" data-question="How does ransomware affect an organization?">
+                            <i class="fa-solid fa-lock"></i> Ransomware impact
+                        </button>
+                        <button class="chip-btn" data-question="What is the role of a firewall?">
+                            <i class="fa-solid fa-fire-burner"></i> Role of a Firewall
+                        </button>
+                        <button class="chip-btn" data-question="Explain multi-factor authentication.">
+                            <i class="fa-solid fa-key"></i> Explain MFA
+                        </button>
+                        <button class="chip-btn" data-question="What are the phases of incident response?">
+                            <i class="fa-solid fa-kit-medical"></i> Incident Response Phases
+                        </button>
+                        <button class="chip-btn" data-question="What is SQL injection?">
+                            <i class="fa-solid fa-code-clipper"></i> What is SQL Injection?
+                        </button>
+                        <button class="chip-btn" data-question="How does security monitoring help detect attacks?">
+                            <i class="fa-solid fa-chart-line"></i> Security Monitoring
+                        </button>
+                        <button class="chip-btn chip-btn-out" data-question="What is the capital of France?">
+                            <i class="fa-solid fa-globe"></i> Capital of France (Out of KB Test)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Stream -->
+            <div class="messages-list" id="messages-list"></div>
+        </main>
+
+        <!-- Chat Input Footer -->
+        <footer class="chat-input-footer">
+            <form id="chat-form" class="chat-form">
+                <input 
+                    type="text" 
+                    id="user-input" 
+                    class="chat-input" 
+                    placeholder="Ask a cybersecurity question (e.g., Explain ransomware prevention or OWASP SQLi)..." 
+                    autocomplete="off" 
+                    required
+                >
+                <button type="submit" id="send-btn" class="btn btn-primary">
+                    <span>Ask RAG</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+            <div class="footer-note">
+                <i class="fa-solid fa-shield-halved"></i> Grounded RAG active: Answers are synthesized strictly from retrieved local document evidence. Out-of-knowledge-base queries are safely identified.
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
