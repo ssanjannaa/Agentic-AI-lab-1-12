@@ -1,0 +1,27 @@
+[
+  {
+    "scenario_id": "SCEN-001",
+    "title": "Unencrypted Customer Email Logging Incident",
+    "category": "Data Protection & PII Privacy",
+    "description": "A developer committed a backend logging middleware that prints raw customer email addresses and unhashed phone numbers directly to public S3 log buckets over HTTP.",
+    "target_policy_id": "POL-PII-02",
+    "expected_verdict": "NON_COMPLIANT"
+  },
+  {
+    "scenario_id": "SCEN-002",
+    "title": "MFA Enforcement on Cloud Admin Console",
+    "category": "Password & Authentication Security",
+    "title_full": "Compliant AWS Portal MFA Setup",
+    "description": "The DevOps team configured WebAuthn hardware security keys and multi-factor authentication for all cloud administrative accounts with zero bypass exceptions.",
+    "target_policy_id": "POL-SEC-01",
+    "expected_verdict": "COMPLIANT"
+  },
+  {
+    "scenario_id": "SCEN-003",
+    "title": "Pasting API Keys into Public Chatbot",
+    "category": "Generative AI & Model Safety",
+    "description": "An engineer uploaded a production database connection string containing plaintext passwords into a public external web chatbot to ask for SQL optimization help.",
+    "target_policy_id": "POL-AI-03",
+    "expected_verdict": "NON_COMPLIANT"
+  }
+]

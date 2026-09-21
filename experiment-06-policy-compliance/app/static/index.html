@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Compliance Agent — Experiment 06</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h1>Policy Compliance Agent</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 06 · Rule-Based Audit Evaluation & Safeguards</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge"><i class="fa-solid fa-signal"></i> Active (Port 8005)</span>
+                <span class="badge engine-badge"><i class="fa-solid fa-scale-balanced"></i> Authoritative Rule Engine</span>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left Control Panel -->
+            <aside class="panel control-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-file-contract"></i> Policy & Scenario Selector</h2>
+                </div>
+
+                <!-- Sample Scenario Buttons -->
+                <div class="samples-section">
+                    <label class="input-label"><i class="fa-solid fa-folder-open"></i> Sample Audit Scenarios</label>
+                    <div id="sample-scenarios-container" class="sample-buttons"></div>
+                </div>
+
+                <form id="audit-form">
+                    <div class="form-group">
+                        <label class="input-label" for="policy-select"><i class="fa-solid fa-gavel"></i> Target Corporate Policy</label>
+                        <select id="policy-select" class="control-select"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="scenario-text"><i class="fa-solid fa-file-pen"></i> Audit Scenario Narrative</label>
+                        <textarea id="scenario-text" class="control-textarea" rows="5" placeholder="Enter scenario description to evaluate against policy rules..."></textarea>
+                    </div>
+
+                    <button type="submit" id="run-audit-btn" class="btn btn-primary btn-block">
+                        <span>Evaluate Policy Compliance</span>
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    </button>
+                </form>
+            </aside>
+
+            <!-- Right Workbench / Display Area -->
+            <main class="panel display-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-square-poll-vertical"></i> Audit Results & Rule Evaluations</h2>
+                    <span id="duration-badge" class="badge duration-badge" style="display: none;">0ms</span>
+                </div>
+
+                <!-- Welcome Placeholder -->
+                <div id="welcome-card" class="welcome-card">
+                    <div class="welcome-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Policy Compliance Audit Workbench</h3>
+                    <p>Select a target policy and audit scenario narrative to run deterministic rule matching, score calculation, violation detection, and remediation planning.</p>
+                </div>
+
+                <!-- Results Area -->
+                <div id="results-area" class="results-area" style="display: none;">
+                    <!-- Audit Scorecard Header -->
+                    <div class="scorecard-row">
+                        <div class="score-dial-card">
+                            <span class="score-label">Compliance Score</span>
+                            <span id="compliance-score-val" class="score-val">0%</span>
+                            <span id="overall-status-badge" class="status-pill">UNKNOWN</span>
+                        </div>
+                        <div class="summary-metrics-grid">
+                            <div class="summary-item">
+                                <span class="sum-label">Rules Evaluated</span>
+                                <span id="rules-total-val" class="sum-val">0</span>
+                            </div>
+                            <div class="summary-item pass">
+                                <span class="sum-label">Passed</span>
+                                <span id="rules-passed-val" class="sum-val">0</span>
+                            </div>
+                            <div class="summary-item fail">
+                                <span class="sum-label">Failed</span>
+                                <span id="rules-failed-val" class="sum-val">0</span>
+                            </div>
+                            <div class="summary-item critical">
+                                <span class="sum-label">Critical Violations</span>
+                                <span id="critical-count-val" class="sum-val">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rule Breakdown Table Card -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-list-check"></i> Policy Rule Evaluations Breakdown</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="rule-evaluations-container" class="table-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Remediations -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-wrench"></i> Recommended Remediation Action Plan</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="remediations-container" class="remediations-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
