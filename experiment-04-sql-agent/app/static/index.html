@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous ReAct SQL Agent — Applied Agentic AI Lab</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h1 id="app-title">Autonomous ReAct SQL Agent with Tool Use</h1>
+                    <p class="subtitle">Dynamic DECIDE → ACT → OBSERVE → VALIDATE Loop · Applied Agentic AI Lab (MR23-1CS0436)</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge" id="provider-badge">
+                    <i class="fa-solid fa-brain"></i> Mode: <strong id="provider-name">Offline Mock</strong>
+                </span>
+                <span class="badge db-badge" id="db-badge">
+                    <i class="fa-solid fa-database"></i> Database: <strong>company.db</strong>
+                </span>
+                <button class="btn btn-outline" id="clear-all-btn" title="Reset Agent Workbench">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid Workspace -->
+        <div class="studio-grid">
+            <!-- Left Panel: Input & Controls -->
+            <section class="panel input-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-circle-play"></i> Analytical Question & Controls</h2>
+                </div>
+
+                <div class="samples-section">
+                    <label class="input-label"><i class="fa-solid fa-folder-open"></i> Sample Analytical Questions:</label>
+                    <div class="sample-buttons" id="sample-buttons">
+                        <button class="sample-btn" data-query="Which department has the highest average employee salary, and how many employees work there?">
+                            <i class="fa-solid fa-calculator"></i> Highest Avg Salary
+                        </button>
+                        <button class="sample-btn" data-query="Which active project has the largest budget and which department owns it?">
+                            <i class="fa-solid fa-diagram-project"></i> Top Active Project
+                        </button>
+                        <button class="sample-btn" data-query="Which employee is assigned the highest total project hours?">
+                            <i class="fa-solid fa-user-clock"></i> Max Project Hours
+                        </button>
+                        <button class="sample-btn" data-query="List the top three departments by total employee salary cost.">
+                            <i class="fa-solid fa-money-bill-trend-up"></i> Top 3 Salary Costs
+                        </button>
+                        <button class="sample-btn" data-query="Which department has the largest number of employees working on active projects?">
+                            <i class="fa-solid fa-users-gear"></i> Active Project Team
+                        </button>
+                    </div>
+                </div>
+
+                <form id="agent-form" class="agent-form">
+                    <div class="form-group">
+                        <label for="question-input" class="input-label">
+                            <i class="fa-solid fa-comment-dots"></i> Natural Language Database Question:
+                        </label>
+                        <textarea 
+                            id="question-input" 
+                            class="question-textarea" 
+                            placeholder="Ask a multi-table analytical question (e.g., 'Which department has the highest average employee salary, and how many employees work there?')..." 
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="controls-row">
+                        <div class="form-group">
+                            <label for="max-iterations" class="input-label"><i class="fa-solid fa-shield-halved"></i> Max Iteration Guard:</label>
+                            <select id="max-iterations" class="control-select">
+                                <option value="4">4 Iterations</option>
+                                <option value="8" selected>8 Iterations (Default)</option>
+                                <option value="12">12 Iterations</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="run-agent-btn" class="btn btn-primary btn-block">
+                        <span>Execute ReAct Agent</span> <i class="fa-solid fa-play"></i>
+                    </button>
+                </form>
+
+                <!-- Tool Activity Panel -->
+                <div class="tool-activity-card">
+                    <h3><i class="fa-solid fa-toolbox"></i> Agent Tool Usage Metrics</h3>
+                    <div class="tool-metrics-grid">
+                        <div class="tool-metric-item">
+                            <span class="tool-name"><i class="fa-solid fa-table-list"></i> list_tables</span>
+                            <strong class="tool-count" id="count-list-tables">0</strong>
+                        </div>
+                        <div class="tool-metric-item">
+                            <span class="tool-name"><i class="fa-solid fa-sitemap"></i> get_schema</span>
+                            <strong class="tool-count" id="count-get-schema">0</strong>
+                        </div>
+                        <div class="tool-metric-item">
+                            <span class="tool-name"><i class="fa-solid fa-shield-check"></i> check_syntax</span>
+                            <strong class="tool-count" id="count-check-syntax">0</strong>
+                        </div>
+                        <div class="tool-metric-item">
+                            <span class="tool-name"><i class="fa-solid fa-terminal"></i> execute_sql</span>
+                            <strong class="tool-count" id="count-execute-sql">0</strong>
+                        </div>
+                        <div class="tool-metric-item highlight">
+                            <span class="tool-name"><i class="fa-solid fa-arrows-rotate"></i> Retries</span>
+                            <strong class="tool-count" id="count-retries">0</strong>
+                        </div>
+                        <div class="tool-metric-item highlight">
+                            <span class="tool-name"><i class="fa-solid fa-network-wired"></i> Total Calls</span>
+                            <strong class="tool-count" id="count-total-calls">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Execution & Answers -->
+            <section class="panel output-panel" id="output-panel">
+                <!-- Welcome Card Placeholder -->
+                <div class="welcome-card" id="welcome-card">
+                    <div class="welcome-icon">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <h2>ReAct Agent Workbench Ready</h2>
+                    <p>Select a sample question or type a multi-table analytical query on the left, then click <strong>Execute ReAct Agent</strong> to watch the autonomous decision loop in action.</p>
+                </div>
+
+                <!-- Live Results Area -->
+                <div class="results-area" id="results-area" style="display: none;">
+                    <!-- Final Answer Card -->
+                    <div class="result-card main-answer-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-award"></i> Grounded Database Answer</h3>
+                            <span class="badge badge-success" id="status-badge">Success</span>
+                        </div>
+                        <div class="card-body" id="final-answer-text"></div>
+                    </div>
+
+                    <!-- Generated SQL & Execution Table -->
+                    <div class="result-card sql-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-code"></i> Executed SQL Query & Result Set</h3>
+                            <button class="btn btn-sm btn-outline" id="copy-sql-btn"><i class="fa-solid fa-copy"></i> Copy SQL</button>
+                        </div>
+                        <div class="card-body">
+                            <pre class="sql-code-block" id="generated-sql-block"></pre>
+                            <div class="table-container" id="data-table-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Safe Agent Execution Trace Timeline -->
+                    <div class="result-card trace-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-timeline"></i> Safe Agent Execution Trace</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline-container" id="agent-trace-timeline"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Read-Only Database Explorer -->
+                <div class="result-card explorer-card">
+                    <details class="explorer-details" open>
+                        <summary class="explorer-summary">
+                            <i class="fa-solid fa-database"></i> Database Explorer & Schema Inspector (company.db)
+                        </summary>
+                        <div class="explorer-body">
+                            <div class="explorer-tabs" id="explorer-tabs"></div>
+                            <div class="explorer-content" id="explorer-content"></div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
