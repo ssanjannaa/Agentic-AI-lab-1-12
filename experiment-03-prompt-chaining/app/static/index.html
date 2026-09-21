@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Document Summarization Studio — Applied Agentic AI Lab</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-link"></i>
+                </div>
+                <div>
+                    <h1 id="app-title">Agentic Document Summarization Studio</h1>
+                    <p class="subtitle">Prompt Chaining for Summarization · Applied Agentic AI Lab (MR23-1CS0436)</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge" id="provider-badge">
+                    <i class="fa-solid fa-brain"></i> Mode: <strong id="provider-name">Offline Mode</strong>
+                </span>
+                <button class="btn btn-outline" id="clear-all-btn" title="Clear Studio Workspace">
+                    <i class="fa-solid fa-trash-can"></i> Clear Studio
+                </button>
+            </div>
+        </header>
+
+        <!-- Visible Prompt Chain Pipeline Bar -->
+        <div class="workflow-bar-container">
+            <div class="workflow-bar-title">
+                <i class="fa-solid fa-diagram-next"></i> Visible 6-Stage Prompt Chain Execution State
+            </div>
+            <div class="workflow-steps" id="workflow-steps">
+                <div class="step-chip" id="step-0"><span class="step-num">1</span> Document Analysis</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-1"><span class="step-num">2</span> Key Extraction</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-2"><span class="step-num">3</span> Draft Summary</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-3"><span class="step-num">4</span> Critique</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-4"><span class="step-num">5</span> Refinement</div>
+                <div class="step-arrow"><i class="fa-solid fa-angle-right"></i></div>
+                <div class="step-chip" id="step-5"><span class="step-num">6</span> Final Output</div>
+            </div>
+        </div>
+
+        <!-- Main Studio Grid Workspace -->
+        <div class="studio-grid">
+            <!-- Left Panel: Input & Controls -->
+            <section class="panel input-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-file-pen"></i> Input Document & Chain Controls</h2>
+                </div>
+
+                <div class="samples-section">
+                    <label class="input-label"><i class="fa-solid fa-folder-open"></i> Quick Load Educational Samples:</label>
+                    <div class="sample-buttons" id="sample-buttons">
+                        <button class="sample-btn" data-sample="01_agentic_ai_paradigms">
+                            <i class="fa-solid fa-robot"></i> Agentic AI
+                        </button>
+                        <button class="sample-btn" data-sample="02_cybersecurity_incident_response">
+                            <i class="fa-solid fa-shield-virus"></i> Incident Response
+                        </button>
+                        <button class="sample-btn" data-sample="03_zero_trust_network_security">
+                            <i class="fa-solid fa-lock"></i> Zero Trust
+                        </button>
+                        <button class="sample-btn" data-sample="04_ai_in_higher_education">
+                            <i class="fa-solid fa-graduation-cap"></i> AI in Education
+                        </button>
+                    </div>
+                </div>
+
+                <form id="summarize-form" class="summarize-form">
+                    <div class="form-group">
+                        <label for="document-input" class="input-label">
+                            <i class="fa-solid fa-align-left"></i> Document Text:
+                        </label>
+                        <textarea 
+                            id="document-input" 
+                            class="document-textarea" 
+                            placeholder="Paste your technical report, cybersecurity document, or academic article text here..." 
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="controls-row">
+                        <div class="form-group">
+                            <label for="summary-style" class="input-label"><i class="fa-solid fa-sliders"></i> Summary Style:</label>
+                            <select id="summary-style" class="control-select">
+                                <option value="executive" selected>Executive Summary</option>
+                                <option value="concise">Concise Summary</option>
+                                <option value="detailed">Detailed Summary</option>
+                                <option value="bullet">Bullet-Point Summary</option>
+                                <option value="academic">Academic Abstract</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="summary-length" class="input-label"><i class="fa-solid fa-text-height"></i> Target Length:</label>
+                            <select id="summary-length" class="control-select">
+                                <option value="short">Short</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="long">Long</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="summarize-btn" class="btn btn-primary btn-block">
+                        <span>Execute Prompt Chain</span> <i class="fa-solid fa-play"></i>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Panel: Output & Inspector -->
+            <section class="panel output-panel" id="output-panel">
+                <!-- Welcome Placeholder -->
+                <div class="welcome-card" id="welcome-card">
+                    <div class="welcome-icon">
+                        <i class="fa-solid fa-diagram-project"></i>
+                    </div>
+                    <h2>Prompt Chaining Studio Ready</h2>
+                    <p>Paste a document or load an educational sample on the left, select your summary style and target length, then click <strong>Execute Prompt Chain</strong> to see the 6 sequential stages in action.</p>
+                </div>
+
+                <!-- Live Results Area (Initially Hidden) -->
+                <div class="results-area" id="results-area" style="display: none;">
+                    <!-- Metrics Card Header -->
+                    <div class="metrics-bar" id="metrics-bar">
+                        <div class="metric-item">
+                            <span class="metric-label">Original Words</span>
+                            <strong class="metric-value" id="metric-orig-words">0</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Final Words</span>
+                            <strong class="metric-value" id="metric-final-words">0</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Compression</span>
+                            <strong class="metric-value" id="metric-ratio">0%</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Key Points</span>
+                            <strong class="metric-value" id="metric-key-points">0</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Processing Time</span>
+                            <strong class="metric-value" id="metric-time">0 ms</strong>
+                        </div>
+                    </div>
+
+                    <!-- Final Summary Presentation Card -->
+                    <div class="result-card main-summary-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-award"></i> Stage 6: Final Refined Summary</h3>
+                            <span class="badge badge-success" id="final-style-badge">Executive</span>
+                        </div>
+                        <div class="card-body" id="final-summary-text"></div>
+                    </div>
+
+                    <!-- Side-by-Side Comparison: Draft vs Refined Summary -->
+                    <div class="result-card comparison-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-code-compare"></i> Stage 3 Draft vs Stage 5 Refined Summary</h3>
+                        </div>
+                        <div class="comparison-grid">
+                            <div class="comparison-box draft-box">
+                                <div class="box-title"><i class="fa-solid fa-file-pen"></i> Stage 3 Draft Summary (Uncritiqued)</div>
+                                <div class="box-content" id="draft-summary-text"></div>
+                            </div>
+                            <div class="comparison-box refined-box">
+                                <div class="box-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Stage 5 Refined Summary (After Stage 4 Critique)</div>
+                                <div class="box-content" id="refined-summary-comparison-text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Points & Terms Grid -->
+                    <div class="two-col-grid">
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-list-check"></i> Extracted Key Points (Stage 2)</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="key-points-list" id="key-points-list"></ul>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-book"></i> Important Terms Glossary (Stage 2)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="terms-list" id="terms-list"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Collapsible Prompt Chain Inspector -->
+                    <div class="result-card inspector-card">
+                        <details class="inspector-details" open>
+                            <summary class="inspector-summary">
+                                <i class="fa-solid fa-microscope"></i> Collapsible Prompt Chain Inspector (Per-Stage Execution Diagnostics)
+                            </summary>
+                            <div class="inspector-body" id="inspector-body"></div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
