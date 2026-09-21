@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Retrieval & Grounded QA System — Experiment 08</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <div>
+                    <h1>Annotation & Metadata-Based Image QA System</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 08 · Catalog Metadata Feature Search & Grounded Answering</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge"><i class="fa-solid fa-signal"></i> Active (Port 8007)</span>
+                <span class="badge mode-badge"><i class="fa-solid fa-tags"></i> Metadata Pipeline</span>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left Control Panel -->
+            <aside class="panel control-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-magnifying-glass"></i> Image Catalog Search</h2>
+                </div>
+
+                <form id="search-form">
+                    <div class="form-group">
+                        <label class="input-label" for="search-query"><i class="fa-solid fa-font"></i> Search Keywords or Labels</label>
+                        <input type="text" id="search-query" class="control-input" value="dashboard alert metrics" placeholder="Enter keywords or labels...">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="category-filter"><i class="fa-solid fa-filter"></i> Category Filter</label>
+                        <select id="category-filter" class="control-select">
+                            <option value="All">All Categories</option>
+                            <option value="Cybersecurity Operations">Cybersecurity Operations</option>
+                            <option value="Cloud Infrastructure">Cloud Infrastructure</option>
+                            <option value="Data Governance">Data Governance</option>
+                            <option value="Cryptography">Cryptography</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="search-btn" class="btn btn-primary btn-block">
+                        <span>Search Catalog Metadata</span>
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </form>
+
+                <!-- Catalog Gallery Cards -->
+                <div class="gallery-section">
+                    <h3><i class="fa-solid fa-images"></i> Indexed Image Catalog</h3>
+                    <div id="catalog-gallery-container" class="gallery-list"></div>
+                </div>
+            </aside>
+
+            <!-- Right Workbench / Display Area -->
+            <main class="panel display-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-comments"></i> Grounded Image QA Studio</h2>
+                    <span id="vqa-duration-badge" class="badge duration-badge" style="display: none;">0ms</span>
+                </div>
+
+                <!-- Selected Image Preview Header -->
+                <div id="selected-image-header" class="selected-image-card" style="display: none;">
+                    <div class="img-preview-badge"><i class="fa-solid fa-image"></i> Target Image Selected</div>
+                    <h3 id="selected-image-title">Select an Image from Search Results</h3>
+                    <p id="selected-image-desc" class="subtitle">Select an image to ask grounded questions based on catalog metadata properties.</p>
+                </div>
+
+                <form id="vqa-form" style="display: none;">
+                    <div class="form-group">
+                        <label class="input-label" for="vqa-question"><i class="fa-solid fa-question-circle"></i> Question</label>
+                        <textarea id="vqa-question" class="control-textarea" rows="2" placeholder="Ask a question about the selected image features or metadata...">What critical alerts and monitored endpoint counts are displayed on this dashboard?</textarea>
+                    </div>
+
+                    <button type="submit" id="ask-vqa-btn" class="btn btn-secondary btn-block">
+                        <span>Ask Grounded Question</span>
+                        <i class="fa-solid fa-circle-question"></i>
+                    </button>
+                </form>
+
+                <!-- Search Results Display Area -->
+                <div id="search-results-container" class="results-grid"></div>
+
+                <!-- VQA Answer Display Box -->
+                <div id="vqa-answer-container" class="result-card" style="display: none;">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-lightbulb"></i> Grounded Answer & Metadata Evidence</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="vqa-answer-box" class="vqa-box"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
