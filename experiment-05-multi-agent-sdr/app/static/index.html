@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent SDR System — Experiment 05</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-users-gear"></i>
+                </div>
+                <div>
+                    <h1>Multi-Agent SDR System</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 05 · Lead Generation, Qualification & Emailing</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge"><i class="fa-solid fa-signal"></i> Active (Port 8004)</span>
+                <span class="badge provider-badge"><i class="fa-solid fa-robot"></i> <span id="provider-name">Mock Multi-Agent</span></span>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left Control Panel -->
+            <aside class="panel control-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-sliders"></i> Outbound Campaign Setup</h2>
+                </div>
+
+                <form id="campaign-form">
+                    <div class="form-group">
+                        <label class="input-label" for="target-industry"><i class="fa-solid fa-building"></i> Target Industry</label>
+                        <select id="target-industry" class="control-select">
+                            <option value="All">All Target Industries</option>
+                            <option value="Cloud Infrastructure">Cloud Infrastructure</option>
+                            <option value="Cybersecurity">Cybersecurity</option>
+                            <option value="Healthcare & Biotech">Healthcare & Biotech</option>
+                            <option value="E-Commerce & Retail">E-Commerce & Retail</option>
+                            <option value="Financial Technology">Financial Technology</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="target-region"><i class="fa-solid fa-globe"></i> Target Region</label>
+                        <select id="target-region" class="control-select">
+                            <option value="All">All Regions</option>
+                            <option value="North America">North America</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Asia-Pacific">Asia-Pacific</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="qualification-threshold"><i class="fa-solid fa-award"></i> Min Qualification Threshold (0-100)</label>
+                        <input type="number" id="qualification-threshold" class="control-input" value="60" min="0" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="value-prop"><i class="fa-solid fa-bullseye"></i> Value Proposition</label>
+                        <textarea id="value-prop" class="control-textarea" rows="3">Enterprise Agentic AI & RAG Automation Platform for reducing operational overhead and accelerating technical workflows.</textarea>
+                    </div>
+
+                    <button type="submit" id="run-campaign-btn" class="btn btn-primary btn-block">
+                        <span>Launch Multi-Agent SDR Campaign</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+
+                <!-- Agent Architecture Overview -->
+                <div class="agent-stack-card">
+                    <h3><i class="fa-solid fa-sitemap"></i> 5 Specialized Agents Active</h3>
+                    <div class="agent-chip-list">
+                        <span class="agent-chip"><i class="fa-solid fa-user-shield"></i> Supervisor</span>
+                        <span class="agent-chip"><i class="fa-solid fa-magnifying-glass"></i> Discovery</span>
+                        <span class="agent-chip"><i class="fa-solid fa-chart-pie"></i> Enrichment</span>
+                        <span class="agent-chip"><i class="fa-solid fa-star"></i> Qualification</span>
+                        <span class="agent-chip"><i class="fa-solid fa-envelope"></i> Drafting</span>
+                        <span class="agent-chip"><i class="fa-solid fa-clipboard-check"></i> Quality Review</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Workbench / Display Area -->
+            <main class="panel display-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> SDR Campaign Results & Agent Trace</h2>
+                    <span id="workflow-duration-badge" class="badge duration-badge" style="display: none;">0ms</span>
+                </div>
+
+                <!-- Welcome Placeholder -->
+                <div id="welcome-card" class="welcome-card">
+                    <div class="welcome-icon"><i class="fa-solid fa-user-gear"></i></div>
+                    <h3>Multi-Agent SDR Campaign Workbench</h3>
+                    <p>Select campaign target parameters and click <strong>"Launch Multi-Agent SDR Campaign"</strong> to run the automated lead discovery, qualification, draft outreach, and compliance review pipeline.</p>
+                </div>
+
+                <!-- Results Area -->
+                <div id="results-area" class="results-area" style="display: none;">
+                    <!-- Metrics Summary Bar -->
+                    <div class="metrics-row">
+                        <div class="metric-card">
+                            <span class="metric-label">Discovered Leads</span>
+                            <span id="discovered-count" class="metric-val">0</span>
+                        </div>
+                        <div class="metric-card highlight">
+                            <span class="metric-label">Qualified Leads</span>
+                            <span id="qualified-count" class="metric-val">0</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Drafted Outreaches</span>
+                            <span id="drafted-count" class="metric-val">0</span>
+                        </div>
+                        <div class="metric-card success">
+                            <span class="metric-label">Compliance Approved</span>
+                            <span id="approved-count" class="metric-val">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Agent Trace Timeline -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-timeline"></i> Multi-Agent Execution Trace</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="agent-trace-timeline" class="timeline-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Qualified Leads & Outreach Cards -->
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-envelope-open-text"></i> Outbound Outreach & Qualification Cards</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="outreach-cards-container" class="cards-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
