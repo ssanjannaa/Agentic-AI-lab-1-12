@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fine-Tuning & Domain Adaptation — Experiment 10</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+                <div>
+                    <h1>Fine-Tuning & Domain Adaptation Studio</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 10 · Real PEFT / LoRA Training & Base vs. Fine-Tuned Benchmark</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="badge status-badge"><i class="fa-solid fa-signal"></i> Active (Port 8009)</span>
+                <span class="badge lora-badge"><i class="fa-solid fa-layer-group"></i> Real PEFT / LoRA Parameter Trainer</span>
+            </div>
+        </header>
+
+        <!-- Main Studio Grid -->
+        <div class="studio-grid">
+            <!-- Left Control Panel -->
+            <aside class="panel control-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-gear"></i> LoRA Hyperparameter Setup</h2>
+                </div>
+
+                <form id="train-form">
+                    <div class="form-group">
+                        <label class="input-label" for="lora-rank"><i class="fa-solid fa-network-wired"></i> LoRA Rank (r)</label>
+                        <select id="lora-rank" class="control-select">
+                            <option value="8" selected>r = 8 (64 Trainable Params)</option>
+                            <option value="16">r = 16 (128 Trainable Params)</option>
+                            <option value="32">r = 32 (256 Trainable Params)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="num-epochs"><i class="fa-solid fa-rotate-right"></i> Training Epochs</label>
+                        <input type="number" id="num-epochs" class="control-input" value="5" min="1" max="20">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="input-label" for="learning-rate"><i class="fa-solid fa-wave-square"></i> Learning Rate</label>
+                        <input type="text" id="learning-rate" class="control-input" value="0.01">
+                    </div>
+
+                    <button type="submit" id="run-train-btn" class="btn btn-primary btn-block">
+                        <span>Execute Real LoRA Fine-Tuning</span>
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                </form>
+
+                <!-- Dataset Info Card -->
+                <div class="dataset-card">
+                    <h3><i class="fa-solid fa-database"></i> Domain Dataset Stats</h3>
+                    <div id="dataset-stats-box" class="stats-box">Loading dataset statistics...</div>
+                </div>
+            </aside>
+
+            <!-- Right Workbench / Display Area -->
+            <main class="panel display-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> Real Training Loss Curves & Checkpoints</h2>
+                    <span id="train-duration-badge" class="badge duration-badge" style="display: none;">0ms</span>
+                </div>
+
+                <!-- Training Job Summary Card -->
+                <div id="job-summary-card" class="result-card" style="display: none;">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-microchip"></i> Training Job Execution Summary</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="job-summary-box" class="summary-box"></div>
+                    </div>
+                </div>
+
+                <!-- Loss Decay Table -->
+                <div id="loss-table-container" class="result-card" style="display: none;">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-table-list"></i> Epoch Loss Decay Log</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Epoch</th>
+                                    <th>Train Loss</th>
+                                    <th>Val Loss</th>
+                                    <th>Perplexity</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loss-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Base vs Fine-Tuned Evaluation Section -->
+                <div class="eval-section">
+                    <div class="panel-header" style="padding:0 0 1rem 0;">
+                        <h2><i class="fa-solid fa-vial"></i> Base vs. Fine-Tuned Model Evaluator</h2>
+                    </div>
+
+                    <form id="eval-form">
+                        <div class="form-group">
+                            <label class="input-label" for="eval-instruction"><i class="fa-solid fa-question"></i> Evaluation Instruction</label>
+                            <input type="text" id="eval-instruction" class="control-input" value="Explain how to mitigate CVE-2023-23397 Outlook vulnerability in an enterprise environment.">
+                        </div>
+
+                        <button type="submit" id="run-eval-btn" class="btn btn-secondary btn-block">
+                            <span>Evaluate Base vs. Trained Checkpoint</span>
+                            <i class="fa-solid fa-code-compare"></i>
+                        </button>
+                    </form>
+
+                    <!-- Evaluation Output Comparison Box -->
+                    <div id="eval-results-container" class="eval-comparison-grid" style="display: none;"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

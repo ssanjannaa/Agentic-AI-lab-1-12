@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Cyber Defense Command Center — Experiment 12 Capstone</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo-badge">🛡️</div>
+                <div>
+                    <h1>Agentic Cyber Defense Command Center</h1>
+                    <p class="subtitle">MR23-1CS0436 — Experiment 12 Capstone · Multi-Agent Cybersecurity Incident Research Assistant</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="status-pill active"><span class="pulse-dot"></span> Active (Port 8011)</span>
+                <span class="status-pill mode">🤖 Multi-Agent RAG Orchestrator</span>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-grid">
+            <!-- Left Sidebar / Input Panel -->
+            <aside class="sidebar-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🔍 Incident Query & Triage Input</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="sampleIncidentSelect">Pre-Curated Sample Incidents</label>
+                            <select id="sampleIncidentSelect" class="form-select">
+                                <option value="">-- Select a Sample Incident --</option>
+                                <option value="INC-2026-001">1. Suspicious Authentication Spikes (Brute Force)</option>
+                                <option value="INC-2026-002">2. Executive Spearphishing & Credential Lure</option>
+                                <option value="INC-2026-003">3. Web Application SQL Injection Probing</option>
+                                <option value="INC-2026-004">4. Malware & Volume Shadow Copy Deletion</option>
+                                <option value="INC-2026-005">5. Abnormal Outbound Data Exfiltration</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="queryInput">Custom Security Incident / Query Text</label>
+                            <textarea id="queryInput" class="form-textarea" rows="4" placeholder="Analyze suspicious login activity, identify technical risk, and recommend containment actions..."></textarea>
+                        </div>
+
+                        <button id="analyzeBtn" class="btn btn-primary">
+                            <span>🚀 Analyze Incident & Execute Agents</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Stats Card -->
+                <div class="card margin-top">
+                    <div class="card-header">
+                        <h2>📊 System Knowledge & Status</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-val" id="kbDocCount">6</div>
+                                <div class="stat-lbl">KB Documents</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-val" id="kbChunkCount">18</div>
+                                <div class="stat-lbl">Indexed Chunks</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-val" id="agentsCount">7</div>
+                                <div class="stat-lbl">Active Agents</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-val" id="toolsCount">5</div>
+                                <div class="stat-lbl">Defensive Tools</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Workspace Panel -->
+            <main class="workspace-panel">
+                <!-- Supervisor Workflow Plan -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📋 Supervisor Workflow Plan</h2>
+                        <span id="intentCategoryBadge" class="badge">Awaiting Input</span>
+                    </div>
+                    <div class="card-body">
+                        <ul id="supervisorPlanList" class="plan-list">
+                            <li class="plan-item muted">Submit an incident query to generate autonomous multi-agent execution plan...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Multi-Agent Pipeline Cards -->
+                <div class="card margin-top">
+                    <div class="card-header">
+                        <h2>🤖 Multi-Agent Execution Pipeline</h2>
+                        <span id="traceIdBadge" class="badge secondary">Trace: Idle</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="agent-pipeline-grid" id="agentPipelineGrid">
+                            <div class="agent-card" id="agent-SupervisorAgent">
+                                <div class="agent-title">SupervisorAgent</div>
+                                <div class="agent-desc">Intent classification & plan orchestration</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                            <div class="agent-card" id="agent-RetrievalAgent">
+                                <div class="agent-title">RetrievalAgent</div>
+                                <div class="agent-desc">RAG knowledge search & ranking</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                            <div class="agent-card" id="agent-ToolAgent">
+                                <div class="agent-title">ToolAgent</div>
+                                <div class="agent-desc">IOCs, Risk & MITRE tools</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                            <div class="agent-card" id="agent-SecurityAnalysisAgent">
+                                <div class="agent-title">SecurityAnalysisAgent</div>
+                                <div class="agent-desc">Technical risk categorization</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                            <div class="agent-card" id="agent-ComplianceVerificationAgent">
+                                <div class="agent-title">ComplianceAgent</div>
+                                <div class="agent-desc">Grounding & safety audit</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                            <div class="agent-card" id="agent-ReflectionCriticAgent">
+                                <div class="agent-title">CriticAgent</div>
+                                <div class="agent-desc">Reflection pass & gap audit</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                            <div class="agent-card" id="agent-SynthesisAgent">
+                                <div class="agent-title">SynthesisAgent</div>
+                                <div class="agent-desc">Executive report synthesis</div>
+                                <div class="agent-status-badge pending">Pending</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evidence & Tools Row -->
+                <div class="two-col-grid margin-top">
+                    <!-- RAG Evidence Panel -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>📚 Retrieved RAG Evidence</h2>
+                        </div>
+                        <div class="card-body scrollable-body" id="evidenceContainer">
+                            <p class="text-muted">No evidence retrieved yet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tool Calls Panel -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>🛠️ Tool Executions & Logs</h2>
+                        </div>
+                        <div class="card-body scrollable-body" id="toolLogsContainer">
+                            <p class="text-muted">No tool executions logged yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compliance & Security Assessment -->
+                <div class="two-col-grid margin-top">
+                    <!-- Security Assessment -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>🛡️ Technical Assessment & MITRE</h2>
+                        </div>
+                        <div class="card-body" id="securityAssessmentContainer">
+                            <p class="text-muted">Awaiting security analysis...</p>
+                        </div>
+                    </div>
+
+                    <!-- Compliance Audit -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>⚖️ Compliance & Safety Audit</h2>
+                        </div>
+                        <div class="card-body" id="complianceAuditContainer">
+                            <p class="text-muted">Awaiting compliance verification...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Synthesized Executive Report -->
+                <div class="card margin-top">
+                    <div class="card-header highlight">
+                        <h2>📜 Final Executive Incident Report</h2>
+                    </div>
+                    <div class="card-body" id="finalReportContainer">
+                        <p class="text-muted">Execute incident analysis to view synthesized executive report.</p>
+                    </div>
+                </div>
+
+                <!-- Execution Metrics Footer -->
+                <div class="card margin-top">
+                    <div class="card-body metrics-bar">
+                        <div><strong>Runtime:</strong> <span id="mRuntime">0 ms</span></div>
+                        <div><strong>Agents:</strong> <span id="mAgents">0</span></div>
+                        <div><strong>Tools Called:</strong> <span id="mTools">0</span></div>
+                        <div><strong>Evidence Chunks:</strong> <span id="mEvidence">0</span></div>
+                        <div><strong>Grounding:</strong> <span id="mGrounding" class="badge">N/A</span></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
