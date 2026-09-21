@@ -1,0 +1,57 @@
+[
+  {
+    "id": "INC-2026-001",
+    "title": "Suspicious Authentication Spikes & Remote Login",
+    "category": "Authentication Anomaly",
+    "severity": "HIGH",
+    "description": "User account 'jdoe@enterprise.com' triggered 14 failed authentication attempts via NTLM from IP 198.51.100.45 within 3 minutes, followed immediately by a successful interactive login from an unrecognized geographic location.",
+    "raw_logs": [
+      "2026-08-11T03:14:02Z EventID=4625 Account=jdoe Status=0xC000006D SourceIP=198.51.100.45 Workstation=FINANCE-PC01",
+      "2026-08-11T03:14:08Z EventID=4625 Account=jdoe Status=0xC000006D SourceIP=198.51.100.45 Workstation=FINANCE-PC01",
+      "2026-08-11T03:17:15Z EventID=4624 Account=jdoe Status=0x0 LogonType=10 SourceIP=198.51.100.45 Workstation=FINANCE-PC01"
+    ]
+  },
+  {
+    "id": "INC-2026-002",
+    "title": "Executive Spearphishing & Credential Lure Email",
+    "category": "Phishing / Email Security",
+    "severity": "CRITICAL",
+    "description": "High-priority email received by finance team members claiming to be from CFO with link to 'https://secure-login-portal-auth.net/verify'. ESG flagged SPF failure. One recipient clicked the link.",
+    "raw_logs": [
+      "2026-08-11T04:22:10Z ESG-Alert Sender=cfo@exec-micros0ft-mail.com SPF=FAIL DKIM=NONE Link=https://secure-login-portal-auth.net/verify Recipient=m.smith@enterprise.com Action=DELIVERED",
+      "2026-08-11T04:25:01Z Proxy-Log User=m.smith Destination=secure-login-portal-auth.net HTTP_STATUS=200 BytesSent=1420"
+    ]
+  },
+  {
+    "id": "INC-2026-003",
+    "title": "Public Web Application SQL Injection Attack Probing",
+    "category": "Web Attack",
+    "severity": "HIGH",
+    "description": "WAF logged 45 SQL injection probes targeting '/api/products/search?id=1 UNION SELECT username,password_hash FROM users--' from IP 203.0.113.88. HTTP 500 error responses recorded.",
+    "raw_logs": [
+      "2026-08-11T05:01:12Z WAF-Log ClientIP=203.0.113.88 URI='/api/products/search?id=1%20UNION%20SELECT%20username,password_hash%20FROM%20users--' Status=500 Signature=SQLi_UNION_01",
+      "2026-08-11T05:01:18Z WAF-Log ClientIP=203.0.113.88 URI='/api/products/search?id=1%20OR%201=1--' Status=200 BytesSent=48920"
+    ]
+  },
+  {
+    "id": "INC-2026-004",
+    "title": "Endpoint Malware & Shadow Copy Deletion Anomaly",
+    "category": "Malware / Ransomware",
+    "severity": "CRITICAL",
+    "description": "EDR alert on workstation HR-LAP03: Process 'update_installer.exe' spawned 'cmd.exe /c vssadmin delete shadows /all /quiet' and calculated SHA-256 hash e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.",
+    "raw_logs": [
+      "2026-08-11T05:40:02Z EDR-Alert Host=HR-LAP03 ParentProcess=update_installer.exe ChildProcess=vssadmin.exe Commandline='vssadmin delete shadows /all /quiet'",
+      "2026-08-11T05:40:05Z EDR-Alert Host=HR-LAP03 Hash=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 Action=PROCESS_TERMINATED"
+    ]
+  },
+  {
+    "id": "INC-2026-005",
+    "title": "Abnormal Outbound Data Transfer Volume",
+    "category": "Data Exfiltration",
+    "severity": "HIGH",
+    "description": "Network traffic analyzer detected host RND-WS09 transmitting 4.2 GB of compressed data over port 443 to external destination IP 192.0.2.110 within 20 minutes, exceeding historical baseline by 850%.",
+    "raw_logs": [
+      "2026-08-11T06:10:00Z NetFlow Host=RND-WS09 DestIP=192.0.2.110 DestPort=443 Protocol=TCP VolumeMB=4280 BaselineMB=50 Alert=EXFILTRATION_HIGH_VOLUME"
+    ]
+  }
+]
